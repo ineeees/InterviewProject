@@ -5,7 +5,7 @@ This project is a Flask application where i used Docker to create its image and 
 
 As a first step Docker should be installed on the machine that you're using for verification : docker --version should be working
 2-Git should be installed as well / or you can just upload the repository from github 
-3- Clone the repository using : "git clone https://github.com/ineeees/Interview.git" 
+3- Clone the repository using : "git clone https://github.com/ineeees/InterviewProject.git" 
 4- to build the docker image you should be under /Interview : cd Interview 
 5- Build the docker image : docker build -t interviewopt . 
 6- Run the docker container : docker run -p 5000:5000 interviewopt 
