@@ -1,0 +1,31 @@
+#for the Deployment part using GitLab we start byt creating a file .gitlab-ci.yml wher we set the stages 
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  IMAGE: interviewopt
+  DOCKER_REGISTRY: docker.io
+
+# Build stage where we have to set the ci/cd variables in the gitlab interface
+build:
+  stage: build
+  script:
+    - docker build -t $DOCKER_REGISTRY/$CI_PROJECT_NAME:$latest .
+
+# Test stage where u can have automated static test for example with sonarQube 
+test:
+  image: sonarsource/sonar-scanner-cli:latest
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  before_script: #here you clone the project into sonarqube for the tests
+    - git config --global url."https://oauth2:${GITLAB_PAT}@gitlab.com/"
+  script: # and here we determine the project name the token and other variables
+    
+# Deploy stage
+deploy:
+  stage: deploy
+  script:
+    - ssh user@server.com "docker pull $DOCKER_REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME && docker run -p 5000:5000 $DOCKER_REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME" 
+# if you want an automated deployment we can use webhook or we can set kubernetes manifest files ( service and deployment to be automatically deployed via a gitops tool like argoCD for example)
